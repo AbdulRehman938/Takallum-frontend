@@ -13,7 +13,7 @@ const tabs = [
         description:
             "Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds. Practice until it's perfect.",
         button: "Try This Feature",
-        image: "public/App Screen.jpg",
+        image: "/App Screen.jpg",
     },
     {
         id: 2,
@@ -22,7 +22,7 @@ const tabs = [
         description:
             "Get AI-driven insights, highlights, and review sessions tailored for your progress.",
         button: "Start Reviewing",
-        image: "public/App Screen.jpg",
+        image: "/App Screen.jpg",
     },
     {
         id: 3,
@@ -31,7 +31,7 @@ const tabs = [
         description:
             "Talk with AI in real situations. Get instant feedback and confidence in your speech.",
         button: "Start Conversation",
-        image: "public/App Screen.jpg",
+        image: "/App Screen.jpg",
     },
     {
         id: 4,
@@ -40,7 +40,7 @@ const tabs = [
         description:
             "Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds.",
         button: "Try This Feature",
-        image: "public/App Screen.jpg",
+        image: "/App Screen.jpg",
     },
 ];
 

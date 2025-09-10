@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FaBullseye, FaCheck } from 'react-icons/fa'
-import { useInView } from 'react-intersection-observer'
-import { useAnimation } from 'framer-motion'
 
 const testimonials = [
     {
@@ -44,9 +42,6 @@ const Claim = () => {
     const viewportRef = useRef(null)
     const [slideWidth, setSlideWidth] = useState(0)
 
-    const controls = useAnimation()
-    const [ref, inView] = useInView({ triggerOnce: false, threshold: 0.1 })
-
     useEffect(() => {
         const measure = () => {
             if (viewportRef.current) setSlideWidth(viewportRef.current.clientWidth)
@@ -56,35 +51,15 @@ const Claim = () => {
         return () => window.removeEventListener('resize', measure)
     }, [])
 
-    useEffect(() => {
-        if (inView) controls.start('visible')
-        else controls.start('hidden')
-    }, [inView, controls])
-
-    const variants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: 'easeOut' },
-        },
-    }
-
     return (
-        <motion.div
-            ref={ref}
-            initial="hidden"
-            animate={controls}
-            variants={variants}
-            className="w-full min-h-screen flex flex-col items-center py-8 lg:py-24 px-4 text-black bg-gray-50"
-        >
+        <div className="w-full min-h-screen flex flex-col items-center py-8 lg:py-24 px-4 text-black bg-gray-50">
             <div className="max-w-7xl w-full">
                 {/* Main heading - responsive text sizes */}
                 <h2 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 lg:mb-12 px-2">
                     See what Takallum <span className="text-green-600">users</span> saying
                 </h2>
 
-                {/* Testimonials section - hidden on mobile */}
+                {/* Testimonials section - hidden on mobile to match design */}
                 <div className="hidden lg:block">
                     <div ref={viewportRef} className="relative bg-white rounded-2xl mb-16 p-8 md:p-12 overflow-hidden min-h-[400px] shadow-lg">
                         <motion.div
@@ -137,7 +112,7 @@ const Claim = () => {
                     </div>
                 </div>
 
-                {/* Mobile testimonial */}
+                {/* Mobile testimonial - single card to match design */}
                 <div className="lg:hidden bg-white rounded-2xl p-6 mb-8 shadow-lg mx-2">
                     <div className="flex items-center gap-4 mb-4">
                         <img
@@ -155,7 +130,7 @@ const Claim = () => {
                     </blockquote>
                 </div>
 
-                {/* Pricing box */}
+                {/* Pricing box - fully responsive */}
                 <div className="flex justify-center">
                     <div className="w-full max-w-sm lg:max-w-md xl:max-w-lg bg-gradient-to-b from-[#bedccd] to-[#fbfbec] rounded-3xl lg:rounded-[3rem] p-2 lg:p-[8px] border-b-[5rem] lg:border-b-[6rem] border-[#fbfbec] shadow-2xl">
                         <div className="w-full h-full rounded-2xl lg:rounded-[2.5rem] bg-white flex flex-col items-center justify-center p-6 lg:p-8 relative">
@@ -208,7 +183,7 @@ const Claim = () => {
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     )
 }
 

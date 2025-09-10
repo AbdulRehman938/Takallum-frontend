@@ -64,8 +64,8 @@ const parentVariants = {
 
 const childVariants = {
     hidden: { opacity: 0, x: -60 },
-    visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.7 } },
-    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.5 } }
+    visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.4 } },
+    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.8 } }
 };
 
 const Mockup = () => {
@@ -80,7 +80,7 @@ const Mockup = () => {
         typeof window !== "undefined" ? window.innerWidth : 0
     );
 
-    const gapBetweenSlides = "-mt-16 xs:-mt-20 sm:-mt-24 md:-mt-32 lg:-mt-40";
+    const gapBetweenSlides = "mt-0";  // Removed negative margins to position mockups lower
     const slideGap = tabSlideWidth < 768 ? 40 : 240;
 
     // Framer Motion animation controls for top/bottom sections
@@ -421,11 +421,11 @@ const Mockup = () => {
                     {/* Card 1 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
-                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
+                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border-4 border-secondary-200 items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
                         >
                             <FaRegCompass className="w-10 h-10 md:w-12 md:h-12 text-[#ECAC44] group-hover:text-white transition-colors duration-700" />
                         </div>
-                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm border border-gray-100 h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
                             <div className="absolute bottom-0 left-0 w-full h-[calc(100%+4rem)] bg-[#ECAC44] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-700 ease-in-out z-0 rounded-t-3xl" />
                             <div className="relative z-10">
                                 <h3 className="text-base md:text-lg lg:text-xl font-bold text-black mb-2 md:mb-3">Learn at Your Own Pace</h3>
@@ -439,11 +439,11 @@ const Mockup = () => {
                     {/* Card 2 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
-                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
+                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border-4 border-secondary-200 items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
                         >
                             <LuBrain className="w-10 h-10 md:w-12 md:h-12 text-[#ECAC44] group-hover:text-white transition-colors duration-700" />
                         </div>
-                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm border border-gray-100 h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
                             <div className="absolute bottom-0 left-0 w-full h-[calc(100%+4rem)] bg-[#ECAC44] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-700 ease-in-out z-0 rounded-t-3xl" />
                             <div className="relative z-10">
                                 <h3 className="text-base md:text-lg font-bold text-black mb-2 md:mb-3">AI Insights</h3>
@@ -457,11 +457,11 @@ const Mockup = () => {
                     {/* Card 3 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
-                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
+                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border-4 border-secondary-200 items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
                         >
                             <LucidePuzzle className="w-10 h-10 md:w-12 md:h-12 text-[#ECAC44] group-hover:text-white transition-colors duration-700" />
                         </div>
-                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm border border-gray-100 h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
                             <div className="absolute bottom-0 left-0 w-full h-[calc(100%+4rem)] bg-[#ECAC44] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-700 ease-in-out z-0 rounded-t-3xl" />
                             <div className="relative z-10">
                                 <h3 className="text-base md:text-lg font-bold text-black mb-2 md:mb-3">Real Conversations</h3>
@@ -475,11 +475,11 @@ const Mockup = () => {
                     {/* Card 4 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
-                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
+                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border-4 border-secondary-200 items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
                         >
                             <LucideRocket className="w-10 h-10 md:w-12 md:h-12 text-[#ECAC44] group-hover:text-white transition-colors duration-700" />
                         </div>
-                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm border border-gray-100 h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
                             <div className="absolute bottom-0 left-0 w-full h-[calc(100%+4rem)] bg-[#ECAC44] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-700 ease-in-out z-0 rounded-t-3xl" />
                             <div className="relative z-10">
                                 <h3 className="text-base md:text-lg font-bold text-black mb-2 md:mb-3">Accelerate Progress</h3>

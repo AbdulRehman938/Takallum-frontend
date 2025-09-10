@@ -26,8 +26,8 @@ const parentVariants = {
 // Animation variants for children
 const childVariants = {
   hidden: { opacity: 0, x: -60 },
-  visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.7 } },
-  exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.5 } }
+  visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.4 } },
+  exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.8 } }
 };
 
 const Connect = () => {
@@ -205,18 +205,18 @@ const Connect = () => {
           className="md:hidden mt-8 xs:mt-10 px-3"
         >
           {/* Tabs */}
-          <div className="flex justify-center gap-4 xs:gap-6 border-b border-gray-300 pb-2">
+          <div className=" flex justify-center gap-4 xs:gap-6 border-b border-gray-300 pb-2">
             <button
               onClick={() => setActiveTab("tutor")}
-              className={`pb-2 text-xs xs:text-sm text-black font-semibold ${activeTab === "tutor" ? "text-secondaryDefault border-b-2 border-secondaryDefault" : "text-gray-500"}`}
+              className={`pb-2 text-xs xs:text-sm text-black font-semibold ${activeTab === "tutor" ? "text-black border-b-2 border-secondaryDefault" : "text-black"}`}
             >
               Private Tutor
             </button>
             <button
               onClick={() => setActiveTab("smart")}
-              className={`pb-2 text-xs xs:text-sm text-black font-semibold flex items-center gap-1 ${activeTab === "smart" ? "text-secondaryDefault border-b-2 border-secondaryDefault" : "text-gray-500"}`}
+              className={`pb-2 text-xs xs:text-sm text-black font-semibold flex items-center gap-1 ${activeTab === "smart" ? "text-black border-b-2 border-secondaryDefault" : "text-black"}`}
             >
-              <img src="public/logo.png" alt="logo" className="w-4 h-4 xs:w-5 xs:h-5" />
+              <img src="/logo.png" alt="logo" className="w-4 h-4 xs:w-5 xs:h-5" />
               Smart Learning
             </button>
           </div>
@@ -239,7 +239,7 @@ const Connect = () => {
             <div className="w-1/2">
               {activeTab === "tutor" ? (
                 <>
-                  <h1 className="font-bold text-sm xs:text-base sm:text-lg text-gray-700">Private Tutor</h1>
+                  <h1 className="font-bold text-sm xs:text-base sm:text-lg text-black">Private Tutor</h1>
                   <ul className="flex flex-col gap-3 xs:gap-4 mt-3 xs:mt-5 text-xs xs:text-sm text-black">
                     <li className="flex items-center border-b border-b-gray/20 pb-2">
                       <RxCross2 className="text-red-500 text-base xs:text-lg p-0.5 rounded-full bg-red-100 mr-1.5 xs:mr-2" /> $10+<span className="text-[10px] xs:text-xs">/hr</span>
@@ -260,7 +260,7 @@ const Connect = () => {
                 </>
               ) : (
                 <>
-                  <h1 className="font-bold text-sm xs:text-base sm:text-lg flex items-center gap-1">
+                  <h1 className="font-bold text-sm xs:text-base sm:text-lg text-black flex items-center gap-1">
                     <img src="public/logo.png" alt="logo" className="w-4 h-4 xs:w-5 xs:h-5" />
                     Smart Learning
                   </h1>

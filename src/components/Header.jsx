@@ -1,14 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const navItems = ["Feature", "Pricing", "Contact", "FAQ"];
   const [hovered, setHovered] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
 
-  // ✅ Prevent background scroll when mobile menu is open
+  // Handle clicks outside the dropdown menu
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "auto";
+    const handleClickOutside = (event) => {
+      // Close the menu if click is outside the menu and not on the toggle button
+      if (mobileOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)) {
+        setMobileOpen(false);
+      }
+    };
+
+    // Add event listener when the menu is open
+    if (mobileOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [mobileOpen]);
 
   return (
@@ -76,6 +98,7 @@ const Header = () => {
       {/* Mobile Hamburger */}
       <div className="md:hidden flex items-center text-secondary-900">
         <button
+          ref={buttonRef}
           onClick={() => setMobileOpen(!mobileOpen)}
           className="text-gray-800 p-1"
         >
@@ -83,54 +106,56 @@ const Header = () => {
         </button>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileOpen && (
-        <>
-          {/* Background overlay */}
-          <div
-            className="fixed inset-0 bg-black/50 z-40"
-            onClick={() => setMobileOpen(false)}
-          />
-          {/* Slide drawer */}
-          <div className="fixed top-0 right-0 h-screen shadow-xl z-50 flex flex-col transition-transform duration-300 translate-x-0
-                        w-[280px] p-4 bg-white/95 backdrop-blur-xl
-                        sm:w-[320px] sm:p-5
-                        md:max-w-xs md:p-6">
-            {/* Close Button */}
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="self-end mb-4 text-gray-800
-                        sm:mb-5
-                        md:mb-6"
-            >
-              <X size={24} className="sm:size-28" />
-            </button>
-
+      {/* Mobile Dropdown Menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            ref={menuRef}
+            initial={{ opacity: 0, height: 0, y: -20 }}
+            animate={{ opacity: 1, height: "auto", y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="absolute top-full right-0 w-[40%] min-w-[240px] z-40 shadow-lg bg-white/95 backdrop-blur-xl overflow-hidden rounded-bl-2xl border-l border-b border-gray-200"
+          >
             {/* Nav Links */}
-            <div className="flex flex-col text-secondary-900 font-semibold
-                          gap-4 text-base
-                          sm:gap-5 sm:text-lg
-                          md:gap-6 md:text-lg">
-              {navItems.map((item) => (
-                <a
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.2 }}
+              className="flex flex-col text-secondary-900 font-semibold w-full
+                        p-4 gap-4 text-base
+                        sm:p-5 sm:gap-5 sm:text-lg
+                        md:p-6 md:gap-6 md:text-lg"
+            >
+              {navItems.map((item, index) => (
+                <motion.a
                   key={item}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + index * 0.1, duration: 0.2 }}
                   href={`#${item.toLowerCase()}`}
-                  className="text-gray-800 hover:text-secondaryDefault transition"
+                  className="text-gray-800 hover:text-secondaryDefault transition border-b border-gray-200 pb-2"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item}
-                </a>
+                </motion.a>
               ))}
-              <button className="bg-secondaryDefault text-white rounded-xl hover:bg-secondary-700 transition
-                              mt-2 px-4 py-2
-                              sm:mt-3
-                              md:mt-4">
+              <motion.button
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.2 }}
+                className="bg-secondaryDefault text-white rounded-xl hover:bg-secondary-700 transition
+                          mt-2 px-4 py-2 self-start
+                          sm:mt-3
+                          md:mt-4"
+                onClick={() => setMobileOpen(false)}
+              >
                 Subscribe
-              </button>
-            </div>
-          </div>
-        </>
-      )}
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

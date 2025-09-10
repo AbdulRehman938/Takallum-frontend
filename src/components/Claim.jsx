@@ -59,8 +59,8 @@ const parentVariants = {
 // Animation variants for children
 const childVariants = {
     hidden: { opacity: 0, x: -60 },
-    visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.7 } },
-    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.5 } }
+    visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.4 } },
+    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.8 } }
 };
 
 const Claim = () => {

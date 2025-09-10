@@ -149,7 +149,7 @@ const Activity = () => {
 
                 {/* Right content (image) */}
                 <div className="w-full md:w-[40%] h-[280px] sm:h-[340px] md:h-[600px] flex justify-center items-center bg-gray-100 overflow-hidden mt-4 sm:mt-6 md:mt-36 rounded-3xl">
-                    <img src="/public/Group 16.png" alt="group" className="w-full h-full object-cover" />
+                    <img src="/Group 16.png" alt="group" className="w-full h-full object-cover" />
                 </div>
             </div>
         </div>

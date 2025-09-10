@@ -7,7 +7,7 @@ const Footer = () => {
       {/* Left: Logo + tagline */}
       <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
         <img
-          src="public/logo.png"
+          src="/logo.png"
           alt="logo"
           className="w-24 sm:w-28 md:w-32 lg:w-36 h-auto"
         />

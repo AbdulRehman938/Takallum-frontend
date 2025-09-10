@@ -48,7 +48,7 @@ const Connect = () => {
           />
           <div className="w-full max-w-[900px] bg-transparent rounded-3xl p-6 sm:p-8 flex items-center justify-center">
             <img
-              src="public/App Screen (1).png"
+              src="/App Screen (1).png"
               alt="mockup"
               className="relative z-10 w-[70%] sm:w-[60%] md:w-[55%] lg:w-[50%] object-contain rounded-lg"
             />

@@ -175,7 +175,7 @@ const Connect = () => {
             {/* Smart Learning */}
             <motion.div variants={childVariants} className="h-[105%] drop-shadow-xl w-[30%] py-4 md:py-6 lg:py-8 bg-white rounded-3xl">
               <div className="font-bold text-base md:text-lg lg:text-xl pl-2 md:pl-3 lg:pl-4 flex items-center gap-1 md:gap-2">
-                <img src="public/logo.png" alt="logo" className="w-6 h-6 md:w-7 md:h-7" />
+                <img src="/logo.png" alt="logo" className="w-6 h-6 md:w-7 md:h-7" />
                 <h1>Smart Learning System</h1>
               </div>
               <ul className="flex flex-col gap-0 mt-6 md:mt-8 lg:mt-10 pr-2 md:pr-3 lg:pr-4">
@@ -261,7 +261,7 @@ const Connect = () => {
               ) : (
                 <>
                   <h1 className="font-bold text-sm xs:text-base sm:text-lg text-black flex items-center gap-1">
-                    <img src="public/logo.png" alt="logo" className="w-4 h-4 xs:w-5 xs:h-5" />
+                    <img src="/logo.png" alt="logo" className="w-4 h-4 xs:w-5 xs:h-5" />
                     Smart Learning
                   </h1>
                   <ul className="flex flex-col gap-3 xs:gap-4 mt-3 xs:mt-5 text-xs xs:text-sm text-black">

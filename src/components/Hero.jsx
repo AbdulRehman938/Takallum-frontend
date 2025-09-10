@@ -1,0 +1,134 @@
+import React, { useEffect } from "react";
+import { FaArrowRight } from "react-icons/fa";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+
+// Parent container variants
+const parentVariants = {
+  hidden: { },
+  visible: {
+    transition: {
+      staggerChildren: 0.18,
+      when: 'beforeChildren',
+    }
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.1,
+      staggerDirection: -1,
+      when: 'afterChildren',
+    }
+  }
+};
+
+// Child variants (each element slides in/out)
+const childVariants = {
+  hidden: { opacity: 0, x: -60 },
+  visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.7 } },
+  exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.5 } }
+};
+
+const Hero = () => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({ threshold: 0.2, triggerOnce: false });
+
+  useEffect(() => {
+    if (inView) controls.start("visible");
+    else controls.start("exit");
+  }, [inView, controls]);
+
+  return (
+    <div
+      id="hero"
+      className="
+        relative bg-gradient-to-t from-primary-200 to-white w-screen
+        flex justify-center items-center overflow-hidden
+        pt-16 md:pt-20
+        min-h-[22rem] xs:min-h-[28rem] sm:min-h-[32rem] md:min-h-[45rem] lg:min-h-[50rem]
+      "
+    >
+      {/* Circle at top - responsive sizing */}
+      <div
+        id="circle"
+        className="
+          absolute left-[70%] sm:left-[75%] md:left-[80%] top-24 -translate-x-1/2
+          bg-yellow-100 blur-3xl rounded-full
+          w-[60vw] h-[60vw] sm:w-[50vw] sm:h-[50vw] md:w-[40vw] md:h-[40vw] lg:w-[30vw] lg:h-[30vw] z-10
+        "
+      ></div>
+
+      {/* Blurred overlay */}
+      <div className="absolute top-0 left-0 w-full h-full bg-primaryDefault/40 backdrop-blur-2xl z-20"></div>
+
+      {/* Content - responsive width and padding */}
+      <motion.div
+        ref={ref}
+        initial="hidden"
+        animate={controls}
+        variants={parentVariants}
+        className="
+          relative z-30 w-[95%] xs:w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]
+          flex flex-col gap-3 sm:gap-4 md:gap-5 items-center text-center
+          px-3 sm:px-4 md:px-6
+        "
+      >
+        <motion.h1
+          variants={childVariants}
+          className="
+            text-black text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl
+            font-bold leading-tight
+          "
+        >
+          <span className="text-[#ECAC44]">The Future</span> of{" "}
+          <span className="text-[#35605A]">
+            Arabic <br className="hidden xs:block" /> Learning
+          </span>{" "}
+          is Here
+        </motion.h1>
+
+        <motion.p
+          variants={childVariants}
+          className="text-gray text-xs xs:text-sm sm:text-base md:text-lg mt-1 sm:mt-2"
+        >
+          Designed for busy people: AI-driven, accessible, and personalized.
+        </motion.p>
+
+        <motion.button
+          variants={childVariants}
+          className="
+            relative group overflow-hidden text-white bg-secondaryDefault
+            py-2 px-4 xs:py-2.5 xs:px-5 sm:py-3 sm:px-6 lg:py-4 lg:px-8
+            mt-2 sm:mt-3 md:mt-4 rounded-3xl
+            transition-all duration-200 ease-linear text-xs xs:text-sm sm:text-base lg:text-lg
+          "
+        >
+          <span className="
+            text-white font-bold relative z-10 transition-all duration-200 ease-linear
+            group-hover:ml-4 sm:group-hover:ml-6 md:group-hover:ml-8
+            flex items-center gap-1 xs:gap-1.5 sm:gap-2
+          ">
+            Join the Beta -{" "}
+            <span className="line-through text-gray/90">$129.99</span>
+            <span className="font-bold text-white">$64.99</span>
+          </span>
+          <span className="
+            absolute top-0 left-0 h-full w-8 sm:w-10 bg-primaryDefault rounded-r-full
+            flex items-center justify-center
+            transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 ease-linear origin-left
+          ">
+            <FaArrowRight className="text-white text-sm sm:text-base lg:text-xl" />
+          </span>
+        </motion.button>
+
+        <motion.p
+          variants={childVariants}
+          className="text-gray text-[10px] xs:text-xs sm:text-sm md:text-base mt-1 sm:mt-2"
+        >
+          (⏰ 7-day free trial) • (✅ Money-back guarantee)
+        </motion.p>
+      </motion.div>
+    </div>
+  );
+};
+
+export default Hero;

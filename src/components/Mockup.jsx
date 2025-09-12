@@ -105,7 +105,6 @@ const Mockup = () => {
         else bottomControls.start("exit");
     }, [bottomInView, bottomControls]);
 
-    // Autoplay: advance activeTab every 1s unless user is hovering
     useEffect(() => {
         const start = () => {
             if (autoplayRef.current) clearInterval(autoplayRef.current);
@@ -113,7 +112,7 @@ const Mockup = () => {
                 if (!hoverPauseRef.current) {
                     setActiveTab(prev => (prev + 1) % tabs.length);
                 }
-            }, 3000);
+            }, 5000);
         };
         start();
         return () => autoplayRef.current && clearInterval(autoplayRef.current);
@@ -128,7 +127,7 @@ const Mockup = () => {
                 if (!hoverPauseRef.current) {
                     setActiveTab(prev => (prev + 1) % tabs.length);
                 }
-            }, 3000);
+            }, 5000);
         }
     };
 
@@ -262,7 +261,7 @@ const Mockup = () => {
                                         dragElastic={0.2}
                                         dragMomentum={false}
                                         dragConstraints={{ left: -60, right: 60, top: 0, bottom: 0 }}
-                                        className="flex flex-col items-center md:items-start gap-6 xs:gap-8 md:gap-10 text-center md:text-left px-2 md:px-0 flex-1 min-w-0 md:max-w-[clamp(11rem,10rem+7vw,24rem)] lg:max-w-[clamp(11rem,10rem+7vw,24rem)] mt-6 md:mt-2"
+                                        className="flex flex-col items-center md:items-start gap-6 xs:gap-8 md:gap-10 text-center md:text-left md:px-0 flex-1 min-w-0 md:max-w-[clamp(11rem,10rem+7vw,24rem)] lg:max-w-[clamp(11rem,10rem+7vw,24rem)] mt-6 md:mt-2"
                                         whileTap={{ cursor: 'grabbing' }}
                                     >
                                         <motion.h2 variants={childVariants} className="text-[clamp(1.2rem,1.1rem+2vw,2.75rem)] font-extrabold whitespace-pre-line mb-2 sm:mb-3">

@@ -89,7 +89,7 @@ const Activity = () => {
                     variants={childVariants}
                     className="font-semibold text-center text-gray text-xs xs:text-sm sm:text-base md:text-lg px-1 xs:px-2"
                 >
-                    From dictation to listening, picture matching to sentence reordering, <br className="hidden xs:block" />
+                    From dictation to listening, picture matching to sentence reordering, <br />
                     Takallam adapts to every learning style.
                 </motion.p>
 
@@ -100,7 +100,7 @@ const Activity = () => {
                     {/* Image carousel */}
                     <motion.div
                         variants={childVariants}
-                        className="w-full h-auto flex justify-center items-center bg-white overflow-hidden my-6 sm:my-8 md:my-10"
+                        className="w-full h-auto flex justify-center items-center bg-white overflow-hidden"
                     >
                         <div className="flex items-center h-full justify-center gap-2 sm:gap-4">
                             {/* Left faded image */}
@@ -128,13 +128,13 @@ const Activity = () => {
                     {/* Text & button */}
                     <motion.p
                         variants={childVariants}
-                        className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-black text-center mt-4 sm:mt-6"
+                        className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-black text-center sm:mt-6"
                     >
                         Dictation Drill
                     </motion.p>
                     <motion.p
                         variants={childVariants}
-                        className="text-gray text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-center mt-2 sm:mt-3 mb-4 sm:mb-6"
+                        className="text-gray text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-center sm:mt-3 sm:mb-6"
                     >
                         Listen and type what you hear
                     </motion.p>

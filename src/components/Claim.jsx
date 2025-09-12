@@ -40,27 +40,9 @@ const testimonials = [
 
 // Animation variants for parent container
 const parentVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.18,
-            when: 'beforeChildren',
-        }
-    },
-    exit: {
-        transition: {
-            staggerChildren: 0.12,
-            staggerDirection: -1,
-            when: 'afterChildren',
-        }
-    }
-};
-
-// Animation variants for children
-const childVariants = {
     hidden: { opacity: 0, x: -60 },
-    visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.4 } },
-    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.8 } }
+    visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.7 } },
+    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.5 } }
 };
 
 const Claim = () => {
@@ -94,26 +76,35 @@ const Claim = () => {
             variants={parentVariants}
             className="w-full min-h-screen flex flex-col items-center py-8 lg:py-24 px-4 text-black bg-gray-50"
         >
-            <motion.div variants={childVariants} className="max-w-7xl w-full">
+            <motion.div variants={parentVariants} className="max-w-7xl w-full">
                 <motion.h2
-                    variants={childVariants}
+                    variants={parentVariants}
                     className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-6 lg:mb-12 px-2"
                 >
                     See what Takallum <span className="text-green-600">users</span> saying
                 </motion.h2>
 
-                {/* Desktop testimonials slider */}
-                <motion.div variants={childVariants} className="hidden lg:block">
-                    <div ref={viewportRef} className="relative bg-white rounded-2xl mb-16 p-8 md:p-12 overflow-hidden min-h-[400px] shadow-lg">
+                {/* Desktop and tablet testimonials slider */}
+                <motion.div
+                    variants={parentVariants}
+                    className="hidden lg:block"
+                >
+                    <div
+                        ref={viewportRef}
+                        className="relative bg-white rounded-2xl mb-16 p-8 md:p-12 overflow-hidden min-h-[400px]"
+                    >
                         <div
                             className="flex z-10 transition-transform duration-500 ease-in-out"
-                            style={{ transform: `translateX(-${index * (slideWidth + 40)}px)` }}
+                            style={{
+                                transform: `translateX(-${index * (slideWidth + 40)}px)`
+                            }}
                         >
                             {testimonials.map((t, i) => (
-                                <motion.div
+                                <div
                                     key={i}
-                                    variants={childVariants}
-                                    className="min-w-full flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-10 p-6 pr-20 pl-20"
+                                    className={`min-w-full flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-10 p-6 pr-20 pl-20
+                                        ${i > 0 ? 'lg:ml-32 md:ml-24 sm:ml-12 ml-8' : ''}
+                                    `}
                                 >
                                     <div className="w-full md:w-1/3 flex flex-row items-center md:items-start gap-4">
                                         <img src={t.avatar} alt={t.name} className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover shadow-md" />
@@ -125,7 +116,7 @@ const Claim = () => {
                                     <div className="w-full md:w-2/3">
                                         <blockquote className="text-base md:text-2xl leading-snug">"{t.quote}"</blockquote>
                                     </div>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
 
@@ -142,29 +133,40 @@ const Claim = () => {
                     </div>
                 </motion.div>
 
-                {/* Mobile testimonial */}
+                {/* Mobile testimonial with right margin */}
                 <motion.div
-                    variants={childVariants}
-                    className="lg:hidden bg-white rounded-2xl p-6 mb-8 shadow-lg mx-2"
+                    variants={parentVariants}
+                    className="lg:hidden bg-white rounded-2xl p-6 mb-8 mx-2 overflow-x-auto"
                 >
-                    <div className="flex items-center gap-4 mb-4">
-                        <img
-                            src={testimonials[0].avatar}
-                            alt={testimonials[0].name}
-                            className="w-12 h-12 rounded-full object-cover shadow-md"
-                        />
-                        <div>
-                            <div className="font-semibold text-base">{testimonials[0].name}</div>
-                            <div className="text-sm text-gray-600">{testimonials[0].subtitle}</div>
-                        </div>
+                    <div className="flex gap-8">
+                        {testimonials.map((t, i) => (
+                            <div
+                                key={i}
+                                className={`min-w-[280px] max-w-[320px] flex-shrink-0 bg-white border border-gray-200 rounded-2xl p-4 mr-0
+                                    ${i > 0 ? 'ml-10' : ''}
+                                `}
+                            >
+                                <div className="flex items-center gap-4 mb-4">
+                                    <img
+                                        src={t.avatar}
+                                        alt={t.name}
+                                        className="w-12 h-12 rounded-full object-cover shadow-md"
+                                    />
+                                    <div>
+                                        <div className="font-semibold text-base">{t.name}</div>
+                                        <div className="text-sm text-gray-600">{t.subtitle}</div>
+                                    </div>
+                                </div>
+                                <blockquote className="text-sm leading-relaxed text-center">
+                                    "{t.quote}"
+                                </blockquote>
+                            </div>
+                        ))}
                     </div>
-                    <blockquote className="text-sm leading-relaxed text-center">
-                        "{testimonials[0].quote}"
-                    </blockquote>
                 </motion.div>
 
                 {/* Claim Box Section */}
-                <motion.div variants={childVariants} className="flex justify-center">
+                <motion.div variants={parentVariants} className="flex justify-center">
                     <div className="w-full max-w-sm lg:max-w-md xl:max-w-lg bg-gradient-to-b from-[#bedccd] to-[#fbfbec] rounded-3xl lg:rounded-[3rem] p-2 lg:p-[8px] border-b-[5rem] lg:border-b-[6rem] border-[#fbfbec] shadow-2xl">
                         <div className="w-full h-full rounded-2xl lg:rounded-[2.5rem] bg-white flex flex-col items-center justify-center p-6 lg:p-8 relative">
                             <div className="absolute -top-2 -left-2 lg:-top-4 lg:-left-8 bg-orange-500 text-white px-3 py-1 lg:px-4 lg:py-2 rounded-full text-sm lg:text-lg font-medium shadow-lg">

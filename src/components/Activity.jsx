@@ -10,13 +10,13 @@ const parentVariants = {
     hidden: {},
     visible: {
         transition: {
-            staggerChildren: 0.18,
+            staggerChildren: 0.12,
             when: 'beforeChildren',
         }
     },
     exit: {
         transition: {
-            staggerChildren: 0.12,
+            staggerChildren: 0.08,
             staggerDirection: -1,
             when: 'afterChildren',
         }
@@ -54,7 +54,6 @@ const cards = [
 ];
 
 const Activity = () => {
-    // Animation controls for top and second sections
     const topControls = useAnimation();
     const secondControls = useAnimation();
     const [topRef, topInView] = useInView({ threshold: 0.2, triggerOnce: false });
@@ -98,38 +97,31 @@ const Activity = () => {
 
                 <motion.div
                     variants={childVariants}
-                    className="w-full h-auto mt-8 xs:mt-10 sm:mt-12 md:mt-16 flex flex-col items-center gap-2 xs:gap-4 sm:gap-5 bg-white p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 rounded-xl shadow-md"
+                    className="w-full h-auto mt-8 xs:mt-10 sm:mt-12 md:mt-16 flex flex-col items-center gap-2 xs:gap-4 sm:gap-5 bg-white p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 rounded-xl"
                 >
                     {/* Image carousel */}
                     <motion.div
                         variants={childVariants}
                         className="w-full h-auto flex justify-center items-center bg-white overflow-hidden my-6 sm:my-8 md:my-10"
                     >
-                        <div className="flex items-center h-full gap-2 xs:gap-3 sm:gap-4 md:gap-5 lg:gap-6 w-full max-w-full justify-center">
+                        <div className="flex items-center h-full justify-center gap-2 sm:gap-4">
                             {/* Left faded image */}
-                            <div className="relative flex-shrink-0 w-[20%] xs:w-[18%] sm:w-[16%] md:w-[15%] lg:w-[14%] min-w-[70px] h-[80px] xs:h-[100px] sm:h-[120px] md:h-[150px] lg:h-[180px]">
-                                <img
-                                    src="/ActivityScreen.png"
-                                    alt="activityscreen-left"
-                                    className="object-contain bg-transparent h-full w-full"
-                                />
+                            <div className="relative flex-shrink w-[60px] xs:w-[70px] sm:w-[90px] md:w-[110px] lg:w-[130px]
+      h-[180px] sm:h-[270px] md:h-[390px] lg:h-[495px] xl:h-[630px] 2xl:h-[750px]">
+                                <img src="/ActivityScreen.png" alt="activityscreen-left" className="object-contain h-full w-full" />
                                 <div className="pointer-events-none absolute inset-0 bg-white/60"></div>
                             </div>
-                            {/* Center image - 1.5x larger */}
-                            <div className="flex-shrink-0 w-[30%] xs:w-[35%] sm:w-[38%] md:w-[40%] lg:w-[42%] min-w-[120px] h-[150px] xs:h-[180px] sm:h-[240px] md:h-[300px] lg:h-[360px] flex items-center">
-                                <img
-                                    src="/ActivityScreen.png"
-                                    alt="activityscreen-center"
-                                    className="object-contain bg-transparent h-full w-full"
-                                />
+
+                            {/* Center image (unchanged) */}
+                            <div className="flex-shrink-0 w-[140px] xs:w-[180px] sm:w-[260px] md:w-[320px] lg:w-[380px]
+      h-[180px] sm:h-[270px] md:h-[390px] lg:h-[495px] xl:h-[630px] 2xl:h-[750px] flex items-center">
+                                <img src="/ActivityScreen.png" alt="activityscreen-center" className="object-contain h-full w-full" />
                             </div>
+
                             {/* Right faded image */}
-                            <div className="relative flex-shrink-0 w-[20%] xs:w-[18%] sm:w-[16%] md:w-[15%] lg:w-[14%] min-w-[70px] h-[80px] xs:h-[100px] sm:h-[120px] md:h-[150px] lg:h-[180px]">
-                                <img
-                                    src="/ActivityScreen.png"
-                                    alt="activityscreen-right"
-                                    className="object-contain bg-transparent h-full w-full"
-                                />
+                            <div className="relative flex-shrink w-[60px] xs:w-[70px] sm:w-[90px] md:w-[110px] lg:w-[130px]
+      h-[180px] sm:h-[270px] md:h-[390px] lg:h-[495px] xl:h-[630px] 2xl:h-[750px]">
+                                <img src="/ActivityScreen.png" alt="activityscreen-right" className="object-contain h-full w-full" />
                                 <div className="pointer-events-none absolute inset-0 bg-white/60"></div>
                             </div>
                         </div>
@@ -163,7 +155,7 @@ const Activity = () => {
                 animate={secondControls}
                 variants={parentVariants}
                 id="second"
-                className="w-full max-w-7xl mx-auto h-auto flex flex-col lg:flex-row justify-between items-center px-4 xs:px-6 sm:px-8 md:px-10 py-8 xs:py-10 sm:py-12 md:py-14 bg-white rounded-xl shadow-md mt-10 xs:mt-14 md:mt-20"
+                className="w-full max-w-7xl mx-auto h-auto flex flex-col lg:flex-row justify-between items-center px-4 xs:px-6 sm:px-8 md:px-10 py-8 xs:py-10 sm:py-12 md:py-14 bg-white rounded-xl mt-10 xs:mt-14 md:mt-20"
             >
                 {/* Left content */}
                 <div className="w-full lg:w-[45%] flex flex-col gap-4 xs:gap-5 sm:gap-6 md:gap-8">
@@ -240,7 +232,7 @@ const Activity = () => {
                 {/* Right content (image) */}
                 <motion.div
                     variants={childVariants}
-                    className="w-full lg:w-[50%] h-[180px] xs:h-[220px] sm:h-[320px] md:h-[400px] lg:h-[600px] flex justify-center items-center bg-gray-100 overflow-hidden mt-4 lg:mt-0 rounded-3xl"
+                    className="w-full lg:w-[50%] h-[180px] xs:h-[220px] sm:h-[320px] md:h-[400px] lg:h-[600px] flex justify-center items-center bg-gray-100 overflow-hidden mt-4 lg:mt-28 lg:ml-10 rounded-3xl"
                 >
                     <img src="/Group 16.png" alt="group" className="w-full h-full object-cover" />
                 </motion.div>

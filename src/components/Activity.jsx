@@ -27,7 +27,7 @@ const parentVariants = {
 const childVariants = {
     hidden: { opacity: 0, x: -60 },
     visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.4 } },
-    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.8 } }
+    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 1.25 } } // smoother scroll-out
 };
 
 const cards = [
@@ -60,13 +60,11 @@ const Activity = () => {
     const [secondRef, secondInView] = useInView({ threshold: 0.2, triggerOnce: false });
 
     useEffect(() => {
-        if (topInView) topControls.start("visible");
-        else topControls.start("exit");
+        topControls.start(topInView ? "visible" : "exit");
     }, [topInView, topControls]);
 
     useEffect(() => {
-        if (secondInView) secondControls.start("visible");
-        else secondControls.start("exit");
+        secondControls.start(secondInView ? "visible" : "exit");
     }, [secondInView, secondControls]);
 
     return (
@@ -74,7 +72,7 @@ const Activity = () => {
             {/* Top Section */}
             <motion.div
                 ref={topRef}
-                initial="hidden"
+                initial={topInView ? "visible" : "hidden"}
                 animate={topControls}
                 variants={parentVariants}
                 className="w-full h-auto flex flex-col items-center gap-4 xs:gap-6 sm:gap-8 md:gap-10"
@@ -151,7 +149,7 @@ const Activity = () => {
             {/* SECOND SECTION */}
             <motion.div
                 ref={secondRef}
-                initial="hidden"
+                initial={secondInView ? "visible" : "hidden"}
                 animate={secondControls}
                 variants={parentVariants}
                 id="second"
@@ -209,7 +207,7 @@ const Activity = () => {
                             drag="x"
                             dragConstraints={{ left: -((cards.length - 1) * 220), right: 0 }}
                             style={{ width: `${cards.length * 220}px` }}
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            transition={{ type: "spring", stiffness: 60, damping: 30 }}
                         >
                             {cards.map((card, index) => (
                                 <motion.div

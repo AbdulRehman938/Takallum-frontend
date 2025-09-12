@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { FaArrowRight, FaRegCompass } from "react-icons/fa";
 import { LuBrain } from "react-icons/lu";
@@ -49,13 +49,13 @@ const parentVariants = {
     hidden: {},
     visible: {
         transition: {
-            staggerChildren: 0.18,
+            staggerChildren: 0.12,
             when: 'beforeChildren',
         }
     },
     exit: {
         transition: {
-            staggerChildren: 0.12,
+            staggerChildren: 0.18,
             staggerDirection: -1,
             when: 'afterChildren',
         }
@@ -63,31 +63,37 @@ const parentVariants = {
 };
 
 const childVariants = {
-    hidden: { opacity: 0, x: -60 },
-    visible: { opacity: 1, x: 0, transition: { type: "spring", duration: 0.4 } },
-    exit: { opacity: 0, x: 60, transition: { type: "spring", duration: 0.8 } }
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+    exit: { opacity: 0, y: -30, transition: { duration: 0.4 } }
+};
+
+// Left / Right split animation for phone + text
+const sideSplit = {
+    hidden: (dir) => ({ opacity: 0, x: dir === 'left' ? -140 : 140, scale: 0.95 }),
+    visible: (dir) => ({
+        opacity: 1,
+        x: 0,
+        scale: 1,
+        transition: { type: 'spring', stiffness: 140, damping: 22, mass: 0.7 }
+    }),
+    exit: (dir) => ({ opacity: 0, x: dir === 'left' ? -140 : 140, scale: 0.95, transition: { duration: 0.35 } })
 };
 
 const Mockup = () => {
     const [activeTab, setActiveTab] = useState(0);
-
+    const autoplayRef = useRef(null);
+    const hoverPauseRef = useRef(false);
     const tabsViewportRef = useRef(null);
     const cardsViewportRef = useRef(null);
-    const [tabSlideWidth, setTabSlideWidth] = useState(
-        typeof window !== "undefined" ? window.innerWidth : 0
-    );
-    const [cardsSlideWidth, setCardsSlideWidth] = useState(
-        typeof window !== "undefined" ? window.innerWidth : 0
-    );
-
-    const gapBetweenSlides = "mt-0";  // Removed negative margins to position mockups lower
-    const slideGap = tabSlideWidth < 768 ? 40 : 240;
+    const [cardsWidth, setCardsWidth] = useState(0);
 
     // Framer Motion animation controls for top/bottom sections
     const topControls = useAnimation();
     const bottomControls = useAnimation();
     const [topRef, topInView] = useInView({ threshold: 0.2, triggerOnce: false });
     const [bottomRef, bottomInView] = useInView({ threshold: 0.2, triggerOnce: false });
+
 
     useEffect(() => {
         if (topInView) topControls.start("visible");
@@ -99,18 +105,43 @@ const Mockup = () => {
         else bottomControls.start("exit");
     }, [bottomInView, bottomControls]);
 
+    // Autoplay: advance activeTab every 1s unless user is hovering
+    useEffect(() => {
+        const start = () => {
+            if (autoplayRef.current) clearInterval(autoplayRef.current);
+            autoplayRef.current = setInterval(() => {
+                if (!hoverPauseRef.current) {
+                    setActiveTab(prev => (prev + 1) % tabs.length);
+                }
+            }, 3000);
+        };
+        start();
+        return () => autoplayRef.current && clearInterval(autoplayRef.current);
+    }, []);
+
+    // Reset autoplay when user manually changes tab
+    const handleTabClick = (index) => {
+        setActiveTab(index);
+        if (autoplayRef.current) {
+            clearInterval(autoplayRef.current);
+            autoplayRef.current = setInterval(() => {
+                if (!hoverPauseRef.current) {
+                    setActiveTab(prev => (prev + 1) % tabs.length);
+                }
+            }, 3000);
+        }
+    };
+
+    // Measure cards viewport width for mobile draggable cards
     useEffect(() => {
         const measure = () => {
-            if (tabsViewportRef.current) {
-                setTabSlideWidth(tabsViewportRef.current.clientWidth);
-            }
             if (cardsViewportRef.current) {
-                setCardsSlideWidth(cardsViewportRef.current.clientWidth);
+                setCardsWidth(cardsViewportRef.current.clientWidth);
             }
         };
         measure();
-        window.addEventListener("resize", measure);
-        return () => window.removeEventListener("resize", measure);
+        window.addEventListener('resize', measure);
+        return () => window.removeEventListener('resize', measure);
     }, []);
 
     return (
@@ -129,7 +160,7 @@ const Mockup = () => {
             {/* Top Section */}
             <motion.div
                 ref={topRef}
-                initial="hidden"
+                initial={topInView ? "visible" : "hidden"}
                 animate={topControls}
                 variants={parentVariants}
                 id="top"
@@ -173,7 +204,7 @@ const Mockup = () => {
                         {tabs.map((tab, index) => (
                             <button
                                 key={tab.id}
-                                onClick={() => setActiveTab(index)}
+                                onClick={() => handleTabClick(index)}
                                 className={`
                                     relative overflow-hidden
                                     px-2 py-1
@@ -193,89 +224,58 @@ const Mockup = () => {
                         ))}
                     </div>
 
-                    {/* Animated content slider */}
+                    {/* Tab Content - single mount with directional entrance */}
                     <div
                         ref={tabsViewportRef}
-                        className="overflow-hidden w-[95vw] xs:w-[90vw] sm:w-[80vw] md:w-[80%] cursor-grab active:cursor-grabbing select-none"
+                        className="w-full overflow-visible"
+                        onMouseEnter={() => { hoverPauseRef.current = true; }}
+                        onMouseLeave={() => { hoverPauseRef.current = false; }}
                     >
-                        <motion.div
-                            className="flex w-full"
-                            style={{ gap: slideGap }}
-                            drag="x"
-                            dragConstraints={{
-                                left:
-                                    -((tabs.length - 1) * (tabSlideWidth + slideGap)) -
-                                    (tabSlideWidth < 768 ? 8 : 0),
-                                right: 0,
-                            }}
-                            animate={{
-                                x:
-                                    -activeTab * (tabSlideWidth + slideGap) -
-                                    (tabSlideWidth < 768 && activeTab > 0 ? 8 : 0),
-                            }}
-                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        >
-                            {tabs.map((tab, idx) => (
+                        <AnimatePresence mode="wait">
+                            {tabs.filter((_, i) => i === activeTab).map((tab) => (
                                 <motion.div
                                     key={tab.id}
-                                    variants={childVariants}
-                                    id={idx === 0 ? "child1" : "child2"}
-                                    className={`
-                                        flex-shrink-0 w-full flex flex-col md:flex-row items-center justify-center
-                                        gap-12 xs:gap-14 sm:gap-16 md:gap-20 lg:gap-24
-                                        ${idx !== 0 ? gapBetweenSlides : ""}
-                                        py-4 sm:py-6 md:py-8
-                                    `}
-                                    style={{ width: tabSlideWidth }}
+                                    className="w-full flex flex-col md:flex-row items-center justify-center gap-12 xs:gap-14 sm:gap-16 md:gap-20 lg:gap-24 py-6 md:py-10"
+                                    initial="hidden"
+                                    animate="visible"
+                                    exit="exit"
+                                    variants={parentVariants}
                                 >
                                     {/* Phone mockup */}
                                     <motion.div
-                                        variants={childVariants}
-                                        className="
-                                            w-[clamp(10rem,9rem+7vw,24rem)]
-                                            h-[clamp(18rem,18rem+12vw,50rem)]
-                                            bg-black rounded-[2rem]
-                                            overflow-hidden shadow-lg flex-none
-                                            transition-all duration-300
-                                            mt-6 md:mt-8
-                                        "
+                                        custom="left"
+                                        variants={sideSplit}
+                                        drag
+                                        dragElastic={0.25}
+                                        dragMomentum={false}
+                                        dragConstraints={{ left: -40, right: 40, top: 0, bottom: 0 }}
+                                        className="w-[clamp(10rem,9rem+7vw,24rem)] h-[clamp(18rem,18rem+12vw,50rem)] bg-black rounded-[2rem] overflow-hidden shadow-lg flex-none transition-all duration-300 mt-4 md:mt-2"
+                                        whileTap={{ cursor: 'grabbing', scale: 0.98 }}
                                     >
-                                        <img
-                                            src={tab.image}
-                                            alt={tab.title}
-                                            className="w-full h-full object-fill bg-transparent"
-                                        />
+                                        <img src={tab.image} alt={tab.title} className="w-full h-full object-fill bg-transparent" />
                                     </motion.div>
                                     {/* Text */}
                                     <motion.div
-                                        variants={childVariants}
-                                        className={`
-                                            flex flex-col items-center md:items-start
-                                            ${idx === 0 ? "gap-6 xs:gap-8 md:gap-10" : "gap-0"}
-                                            text-center md:text-left px-2 md:px-0 flex-1 min-w-0 md:max-w-[clamp(11rem,10rem+7vw,24rem)] lg:max-w-[clamp(11rem,10rem+7vw,24rem)]
-                                            mt-4 md:mt-6
-                                        `}
+                                        custom="right"
+                                        variants={sideSplit}
+                                        drag
+                                        dragElastic={0.2}
+                                        dragMomentum={false}
+                                        dragConstraints={{ left: -60, right: 60, top: 0, bottom: 0 }}
+                                        className="flex flex-col items-center md:items-start gap-6 xs:gap-8 md:gap-10 text-center md:text-left px-2 md:px-0 flex-1 min-w-0 md:max-w-[clamp(11rem,10rem+7vw,24rem)] lg:max-w-[clamp(11rem,10rem+7vw,24rem)] mt-6 md:mt-2"
+                                        whileTap={{ cursor: 'grabbing' }}
                                     >
-                                        <motion.h2 variants={childVariants} className="text-[clamp(1.2rem,1.1rem+2vw,2.75rem)] font-extrabold whitespace-pre-line mb-3 sm:mb-4">
+                                        <motion.h2 variants={childVariants} className="text-[clamp(1.2rem,1.1rem+2vw,2.75rem)] font-extrabold whitespace-pre-line mb-2 sm:mb-3">
                                             {tab.heading}
                                         </motion.h2>
-                                        <motion.p variants={childVariants} className="text-gray text-[clamp(0.85rem,0.75rem+1vw,1.35rem)] mb-4 sm:mb-6">
+                                        <motion.p variants={childVariants} className="text-gray text-[clamp(0.85rem,0.75rem+1vw,1.35rem)] mb-4 sm:mb-5">
                                             {tab.description}
                                         </motion.p>
                                         <motion.button
                                             variants={childVariants}
-                                            className="
-                                                group relative overflow-hidden
-                                                px-4 py-2
-                                                xs:px-6 xs:py-2
-                                                md:px-8 md:py-3
-                                                lg:px-10 lg:py-4
-                                                bg-secondaryDefault text-white
-                                                rounded-2xl transition duration-200
-                                                hover:bg-secondary-700 flex items-center justify-center
-                                                gap-2 w-full sm:w-auto sm:min-w-[180px] md:min-w-[200px]
-                                                text-xs xs:text-sm md:text-base lg:text-lg mt-2 sm:mt-4
-                                            "
+                                            whileHover={{ scale: 1.03 }}
+                                            whileTap={{ scale: 0.96 }}
+                                            className="group relative overflow-hidden px-4 py-2 xs:px-6 xs:py-2 md:px-8 md:py-3 lg:px-10 lg:py-4 bg-secondaryDefault text-white rounded-2xl transition duration-200 hover:bg-secondary-700 flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[180px] md:min-w-[200px] text-xs xs:text-sm md:text-base lg:text-lg mt-2 sm:mt-4"
                                         >
                                             {tab.button}
                                             <FaArrowRight className="text-white text-base md:text-xl transition-transform duration-200 group-hover:translate-x-1" />
@@ -283,7 +283,7 @@ const Mockup = () => {
                                     </motion.div>
                                 </motion.div>
                             ))}
-                        </motion.div>
+                        </AnimatePresence>
                     </div>
                 </motion.div>
             </motion.div>
@@ -291,7 +291,7 @@ const Mockup = () => {
             {/* Bottom section */}
             <motion.div
                 ref={bottomRef}
-                initial="hidden"
+                initial={bottomInView ? "visible" : "hidden"}
                 animate={bottomControls}
                 variants={parentVariants}
                 id="fill"
@@ -305,8 +305,8 @@ const Mockup = () => {
                 "
             >
                 {/* Black circle background behind fill content */}
-                <div className="h-[95%] w-[98%] absolute bottom-1 bg-secondary-100 opacity-60 blur-3xl -z-1"></div>
-                <div className="h-[50%] w-[25%] absolute opacity-60 -z-1 bg-yellow-100 rounded-full right-[5rem] bottom-[20rem] blur-3xl"></div>
+                <div className="h-[95%] w-[98%] absolute bottom-1 bg-secondary-100 opacity-60 blur-3xl -z-10"></div>
+                <div className="h-[50%] w-[25%] absolute opacity-60 -z-10 bg-yellow-100 rounded-full right-[5rem] bottom-[20rem] blur-3xl"></div>
                 {/* Top badge */}
                 <motion.div
                     variants={childVariants}
@@ -337,17 +337,17 @@ const Mockup = () => {
                     variants={childVariants}
                     id="child1"
                     ref={cardsViewportRef}
-                    className="block md:hidden overflow-x-hidden overflow-y-visible bg-transparent w-full cursor-grab active:cursor-grabbing select-none mt- px-2"
+                    className="block md:hidden overflow-x-hidden overflow-y-visible bg-transparent w-full cursor-grab active:cursor-grabbing select-none mt-4 px-2"
                 >
                     <motion.div
                         className="flex w-full gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-10"
                         drag="x"
-                        dragConstraints={{ left: -(3 * cardsSlideWidth * 0.8), right: 0 }}
+                        dragConstraints={{ left: -(3 * cardsWidth * 0.8), right: 0 }}
                         animate={{ x: 0 }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     >
                         {[0, 1, 2, 3].map((i) => (
-                            <motion.div key={i} variants={childVariants} className="flex-shrink-0 flex flex-col items-center" style={{ width: cardsSlideWidth * 0.7 }}>
+                            <motion.div key={i} variants={childVariants} className="flex-shrink-0 flex flex-col items-center" style={{ width: cardsWidth * 0.7 }}>
                                 {/* Icon outside card */}
                                 {i === 0 && (
                                     <div className="relative z-20 w-16 h-16 xs:w-20 xs:h-20 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg mb-2">
@@ -421,11 +421,11 @@ const Mockup = () => {
                     {/* Card 1 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
-                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border-4 border-secondary-200 items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
+                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
                         >
                             <FaRegCompass className="w-10 h-10 md:w-12 md:h-12 text-[#ECAC44] group-hover:text-white transition-colors duration-700" />
                         </div>
-                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm border border-gray-100 h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
                             <div className="absolute bottom-0 left-0 w-full h-[calc(100%+4rem)] bg-[#ECAC44] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-700 ease-in-out z-0 rounded-t-3xl" />
                             <div className="relative z-10">
                                 <h3 className="text-base md:text-lg lg:text-xl font-bold text-black mb-2 md:mb-3">Learn at Your Own Pace</h3>
@@ -439,11 +439,11 @@ const Mockup = () => {
                     {/* Card 2 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
-                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border-4 border-secondary-200 items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
+                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
                         >
                             <LuBrain className="w-10 h-10 md:w-12 md:h-12 text-[#ECAC44] group-hover:text-white transition-colors duration-700" />
                         </div>
-                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm border border-gray-100 h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
                             <div className="absolute bottom-0 left-0 w-full h-[calc(100%+4rem)] bg-[#ECAC44] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-700 ease-in-out z-0 rounded-t-3xl" />
                             <div className="relative z-10">
                                 <h3 className="text-base md:text-lg font-bold text-black mb-2 md:mb-3">AI Insights</h3>
@@ -457,11 +457,11 @@ const Mockup = () => {
                     {/* Card 3 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
-                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border-4 border-secondary-200 items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
+                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
                         >
                             <LucidePuzzle className="w-10 h-10 md:w-12 md:h-12 text-[#ECAC44] group-hover:text-white transition-colors duration-700" />
                         </div>
-                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm border border-gray-100 h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
                             <div className="absolute bottom-0 left-0 w-full h-[calc(100%+4rem)] bg-[#ECAC44] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-700 ease-in-out z-0 rounded-t-3xl" />
                             <div className="relative z-10">
                                 <h3 className="text-base md:text-lg font-bold text-black mb-2 md:mb-3">Real Conversations</h3>
@@ -475,11 +475,11 @@ const Mockup = () => {
                     {/* Card 4 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
-                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border-4 border-secondary-200 items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
+                            className="absolute -top-10 md:-top-14 left-1/2 -translate-x-1/2 z-20 w-20 h-20 md:w-28 md:h-28 bg-white rounded-full flex border border-gray items-center justify-center shadow-lg transition-colors duration-700 group-hover:bg-[#ECAC44]"
                         >
                             <LucideRocket className="w-10 h-10 md:w-12 md:h-12 text-[#ECAC44] group-hover:text-white transition-colors duration-700" />
                         </div>
-                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
+                        <div className="relative bg-white rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 pt-16 md:pt-20 shadow-sm border border-gray-100 h-auto md:h-72 lg:h-80 flex flex-col gap-2 xs:gap-3 sm:gap-4 overflow-hidden">
                             <div className="absolute bottom-0 left-0 w-full h-[calc(100%+4rem)] bg-[#ECAC44] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-700 ease-in-out z-0 rounded-t-3xl" />
                             <div className="relative z-10">
                                 <h3 className="text-base md:text-lg font-bold text-black mb-2 md:mb-3">Accelerate Progress</h3>

@@ -47,6 +47,8 @@ const parentVariants = {
 
 const Claim = () => {
     const [index, setIndex] = useState(0)
+    const autoplayRef = useRef(null)
+    const hoverPauseRef = useRef(false)
     const viewportRef = useRef(null)
     const [slideWidth, setSlideWidth] = useState(0)
 
@@ -67,6 +69,32 @@ const Claim = () => {
         window.addEventListener('resize', measure)
         return () => window.removeEventListener('resize', measure)
     }, [])
+
+    // Autoplay every 3s
+    useEffect(() => {
+        const start = () => {
+            if (autoplayRef.current) clearInterval(autoplayRef.current)
+            autoplayRef.current = setInterval(() => {
+                if (!hoverPauseRef.current) {
+                    setIndex(prev => (prev + 1) % testimonials.length)
+                }
+            }, 3000)
+        }
+        start()
+        return () => autoplayRef.current && clearInterval(autoplayRef.current)
+    }, [])
+
+    const handleDotClick = (i) => {
+        setIndex(i)
+        if (autoplayRef.current) {
+            clearInterval(autoplayRef.current)
+            autoplayRef.current = setInterval(() => {
+                if (!hoverPauseRef.current) {
+                    setIndex(prev => (prev + 1) % testimonials.length)
+                }
+            }, 3000)
+        }
+    }
 
     return (
         <motion.div
@@ -92,6 +120,8 @@ const Claim = () => {
                     <div
                         ref={viewportRef}
                         className="relative bg-white rounded-2xl mb-16 p-8 md:p-12 overflow-hidden min-h-[400px]"
+                        onMouseEnter={() => { hoverPauseRef.current = true }}
+                        onMouseLeave={() => { hoverPauseRef.current = false }}
                     >
                         <div
                             className="flex z-10 transition-transform duration-500 ease-in-out"
@@ -124,7 +154,7 @@ const Claim = () => {
                             {testimonials.map((_, i) => (
                                 <div
                                     key={i}
-                                    onClick={() => setIndex(i)}
+                                    onClick={() => handleDotClick(i)}
                                     className={`h-2 rounded-full ${i === index ? 'bg-secondaryDefault w-40' : 'bg-secondary-300 w-4'} cursor-pointer transition-all duration-200`}
                                     style={{ transitionProperty: 'width, background-color' }}
                                 />

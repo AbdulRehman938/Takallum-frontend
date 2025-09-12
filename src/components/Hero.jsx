@@ -110,13 +110,11 @@ const Hero = () => {
             transition-all duration-200 ease-linear text-xs xs:text-sm sm:text-base lg:text-lg
           "
         >
-          <span className="text-white font-bold relative z-10 flex items-center gap-1 xs:gap-1.5 sm:gap-2 group-hover:ml-4 sm:group-hover:ml-6 md:group-hover:ml-8 transition-all duration-200">
+          <span className="text-white font-bold relative z-10 flex items-center gap-1 xs:gap-1.5 sm:gap-2 group-hover:scale-105 sm:group-hover:scale-105 md:group-hover:scale-105 transition-all duration-200">
             Join the Beta - <span className="line-through text-gray/90">$129.99</span>
             <span className="font-bold text-white">$64.99</span>
           </span>
-          <span className="absolute top-0 left-0 h-full w-8 sm:w-10 bg-primaryDefault rounded-r-full flex items-center justify-center transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 ease-linear origin-left">
-            <FaArrowRight className="text-white text-sm sm:text-base lg:text-xl" />
-          </span>
+        
         </motion.button>
 
         <motion.p

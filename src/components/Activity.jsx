@@ -75,7 +75,7 @@ const Activity = () => {
                 initial={topInView ? "visible" : "hidden"}
                 animate={topControls}
                 variants={parentVariants}
-                className="w-full h-auto flex flex-col items-center gap-4 xs:gap-6 sm:gap-8 md:gap-10"
+                className="w-full h-auto flex flex-col items-center gap-4 xs:gap-6 sm:gap-3 md:gap-5"
             >
                 <motion.h1
                     variants={childVariants}
@@ -95,46 +95,59 @@ const Activity = () => {
 
                 <motion.div
                     variants={childVariants}
-                    className="w-full h-auto mt-8 xs:mt-10 sm:mt-12 md:mt-16 flex flex-col items-center gap-2 xs:gap-4 sm:gap-5 bg-white p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 rounded-xl"
+                    className="w-full h-auto mt-1 xs:mt-10 sm:mt-5 md:mt-1 flex flex-col items-center gap-1 xs:gap-1 sm:gap-2 bg-white p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12 rounded-xl"
                 >
                     {/* Image carousel */}
                     <motion.div
                         variants={childVariants}
                         className="w-full h-auto flex justify-center items-center bg-white overflow-hidden"
                     >
-                        <div className="flex items-center h-full justify-center gap-2 sm:gap-4">
-                            {/* Left faded image */}
-                            <div className="relative flex-shrink w-[60px] xs:w-[70px] sm:w-[90px] md:w-[110px] lg:w-[130px]
-      h-[180px] sm:h-[270px] md:h-[390px] lg:h-[495px] xl:h-[630px] 2xl:h-[750px]">
-                                <img src="/ActivityScreen.png" alt="activityscreen-left" className="object-contain h-full w-full" />
+                        {/* Wrapper to control shared height */}
+                        <div className="flex items-center justify-center bg-white overflow-hidden">
+                            {/* Left faded image (20% shorter) */}
+                            <div className="relative flex-shrink-0 scale-80">
+                                <img
+                                    src="/ActivityScreen.png"
+                                    alt="activityscreen-left"
+                                    className="object-contain h-[144px] sm:h-[216px] md:h-[312px] lg:h-[396px] xl:h-[504px] 2xl:h-[600px] w-auto"
+                                />
                                 <div className="pointer-events-none absolute inset-0 bg-white/60"></div>
                             </div>
 
                             {/* Center image (unchanged) */}
-                            <div className="flex-shrink-0 w-[140px] xs:w-[180px] sm:w-[260px] md:w-[320px] lg:w-[380px]
-      h-[180px] sm:h-[270px] md:h-[390px] lg:h-[495px] xl:h-[630px] 2xl:h-[750px] flex items-center">
-                                <img src="/ActivityScreen.png" alt="activityscreen-center" className="object-contain h-full w-full" />
+                            <div className="flex-shrink-0 w-auto 
+    h-[180px] sm:h-[270px] md:h-[390px] lg:h-[495px] xl:h-[630px] 2xl:h-[750px] flex items-center">
+                                <img
+                                    src="/ActivityScreen.png"
+                                    alt="activityscreen-center"
+                                    className="object-contain h-full w-auto"
+                                />
                             </div>
 
-                            {/* Right faded image */}
-                            <div className="relative flex-shrink w-[60px] xs:w-[70px] sm:w-[90px] md:w-[110px] lg:w-[130px]
-      h-[180px] sm:h-[270px] md:h-[390px] lg:h-[495px] xl:h-[630px] 2xl:h-[750px]">
-                                <img src="/ActivityScreen.png" alt="activityscreen-right" className="object-contain h-full w-full" />
+                            {/* Right faded image (20% shorter) */}
+                            <div className="relative flex-shrink-0 scale-80">
+                                <img
+                                    src="/ActivityScreen.png"
+                                    alt="activityscreen-right"
+                                    className="object-contain h-[144px] sm:h-[216px] md:h-[312px] lg:h-[396px] xl:h-[504px] 2xl:h-[600px] w-auto"
+                                />
                                 <div className="pointer-events-none absolute inset-0 bg-white/60"></div>
                             </div>
                         </div>
+
+
                     </motion.div>
 
                     {/* Text & button */}
                     <motion.p
                         variants={childVariants}
-                        className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-black text-center sm:mt-6"
+                        className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-black text-center xs:mt-20 sm:mt-20"
                     >
                         Dictation Drill
                     </motion.p>
                     <motion.p
                         variants={childVariants}
-                        className="text-gray text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-center sm:mt-3 sm:mb-6"
+                        className="text-gray text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-center sm:mt-3 sm:mb-2"
                     >
                         Listen and type what you hear
                     </motion.p>

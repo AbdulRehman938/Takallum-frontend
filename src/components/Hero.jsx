@@ -66,7 +66,7 @@ const Hero = () => {
       <motion.div
         style={{ y, opacity }}
         className="
-          relative z-30 w-[95%] xs:w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%] 2xl:w-[40%]
+          relative z-30 w-[95%] xs:w-[90%] sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[70%] 2xl:w-[50%]
           flex flex-col gap-3 sm:gap-4 md:gap-5 items-center text-center
           px-3 sm:px-4 md:px-6
         "
@@ -77,7 +77,7 @@ const Hero = () => {
           animate={controlsH1}
           variants={variantsArr[0]}
           transition={{ type: "spring", duration: 1.2, bounce: 0.2 }}
-          className="text-black text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight"
+          className="text-black text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[5rem] font-bold leading-tight"
         >
           <span className="text-[#ECAC44]">The Future</span> of{" "}
           <span className="text-[#35605A]">
@@ -102,19 +102,25 @@ const Hero = () => {
           initial="hidden"
           animate={controlsBtn}
           variants={variantsArr[2]}
-          transition={{ type: "spring", duration: 1.2, bounce: 0.2 }}
-          className="
-            relative group overflow-hidden text-white bg-secondaryDefault
-            py-2 px-4 xs:py-2.5 xs:px-5 sm:py-3 sm:px-6 lg:py-4 lg:px-8
-            mt-2 sm:mt-3 md:mt-4 rounded-3xl
-            transition-all duration-200 ease-linear text-xs xs:text-sm sm:text-base lg:text-lg
-          "
+          transition={{ type: "spring", duration: 1.2, bounce: 0.25 }}
+          className="relative group overflow-hidden text-white bg-gradient-to-br from-secondaryDefault via-primary-00 to-secondaryDefault shadow-[0_4px_20px_-4px_rgba(0,0,0,0.35)]
+                     py-2 px-4 xs:py-2.5 xs:px-5 sm:py-3 sm:px-6 lg:py-4 lg:px-8
+                     mt-2 sm:mt-3 md:mt-4 rounded-3xl
+                     transition-all duration-300 ease-out text-xs xs:text-sm sm:text-base lg:text-lg
+                     focus:outline-none focus:ring-4 focus:ring-secondaryDefault/40 focus:ring-offset-2 focus:ring-offset-white
+                     active:scale-95 cursor-pointer"
         >
-          <span className="text-white font-bold relative z-10 flex items-center gap-1 xs:gap-1.5 sm:gap-2 group-hover:scale-105 sm:group-hover:scale-105 md:group-hover:scale-105 transition-all duration-200">
-            Join the Beta - <span className="line-through text-gray/90">$129.99</span>
-            <span className="font-bold text-white">$64.99</span>
+          {/* Glow layer */}
+          <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.35),transparent_60%)]"></span>
+          {/* Sliding shine */}
+          <span className="absolute -left-1/3 top-0 h-full w-1/3 translate-x-[-120%] group-hover:translate-x-[260%] rotate-12 bg-white/30 mix-blend-overlay blur-md transition-transform duration-[1100ms] ease-out"></span>
+          <span className="relative z-10 font-bold flex items-center gap-1 xs:gap-1.5 sm:gap-2">
+            Join the Beta
+            <span className="hidden xs:inline">-</span>
+            <span className="line-through text-white/70 decoration-2">$129.99</span>
+            <span className="font-extrabold text-white drop-shadow">$64.99</span>
+            <FaArrowRight className="text-white text-xs sm:text-sm lg:text-base translate-x-0 group-hover:translate-x-1 transition-transform duration-300" />
           </span>
-        
         </motion.button>
 
         <motion.p

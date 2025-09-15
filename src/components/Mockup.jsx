@@ -11,7 +11,7 @@ const tabs = [
         title: "Personalised Lessons",
         heading: "Perfect Your\nPronunciation",
         description:
-            "Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds. Practice until it's perfect.",
+            "Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds. Practice until it's perfect.Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds. Practice until it's perfect.",
         button: "Try This Feature",
         image: "/App Screen.jpg",
     },
@@ -20,7 +20,7 @@ const tabs = [
         title: "AI Generated Review",
         heading: "Review Smarter with AI",
         description:
-            "Get AI-driven insights, highlights, and review sessions tailored for your progress.",
+            "Get AI-driven insights, highlights, and review sessions tailored for your progress.Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds. Practice until it's perfect.",
         button: "Start Reviewing",
         image: "/App Screen.jpg",
     },
@@ -29,7 +29,7 @@ const tabs = [
         title: "AI Conversations",
         heading: "Practice Real Conversations",
         description:
-            "Talk with AI in real situations. Get instant feedback and confidence in your speech.",
+            "Talk with AI in real situations. Get instant feedback and confidence in your speech.Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds. Practice until it's perfect.",
         button: "Start Conversation",
         image: "/App Screen.jpg",
     },
@@ -38,7 +38,7 @@ const tabs = [
         title: "AI Pronunciations",
         heading: "Perfect Your Pronunciation",
         description:
-            "Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds.",
+            "Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds.Record your voice and get instant AI feedback on clarity, rhythm, and vowel sounds. Practice until it's perfect.",
         button: "Try This Feature",
         image: "/App Screen.jpg",
     },
@@ -151,9 +151,9 @@ const Mockup = () => {
             md:w-[90vw]
             h-auto
             px-2 xs:px-4 sm:px-6 md:px-10
-            mt-10 xs:mt-14 sm:mt-16 md:mt-28
+            mt-6 xs:mt-10 sm:mt-12 md:mt-20
             flex flex-col justify-between items-center
-            xs:gap-14 sm:gap-20 md:gap-28
+            xs:gap-12 sm:gap-16 md:gap-20
             relative
         ">
             {/* Top Section */}
@@ -167,18 +167,17 @@ const Mockup = () => {
                     w-full
                     h-auto
                     flex flex-col justify-start items-center
-                    gap-6 xs:gap-8 sm:gap-10 md:gap-14
                 "
             >
                 <motion.div
                     variants={childVariants}
-                    className="w-auto inline-flex px-4 py-2 bg-[#ebebeb] text-gray rounded-3xl text-[clamp(0.65rem,0.6rem+0.6vw,1rem)]">
+                    className="w-auto inline-flex px-4 py-1.5 bg-[#ebebeb] text-gray rounded-3xl text-[clamp(0.6rem,0.55rem+0.55vw,0.95rem)] -mt-1 xs:-mt-2 sm:-mt-3 md:-mt-5 lg:-mt-6">
                     🔥Artificial Intelligence Learning
                 </motion.div>
 
                 <motion.h1
                     variants={childVariants}
-                    className="text-[clamp(1.5rem,1.25rem+2vw,3.75rem)] font-bold text-black text-center"
+                    className="text-[clamp(1.45rem,1.2rem+1.9vw,3.5rem)] font-bold text-black text-center mt-1"
                 >
                     Learn with AI That{" "}
                     <span className="text-secondaryDefault">Adapts to You</span>
@@ -186,7 +185,7 @@ const Mockup = () => {
 
                 <motion.p
                     variants={childVariants}
-                    className="text-center text-gray font-medium text-[clamp(0.9rem,0.7rem+1vw,1.5rem)]"
+                    className="text-center text-gray font-medium text-[clamp(0.85rem,0.68rem+0.95vw,1.4rem)] mt-1"
                 >
                     Experience personalized learning that evolves with your <br /> progress
                     and learning style
@@ -196,10 +195,10 @@ const Mockup = () => {
                 <motion.div
                     variants={childVariants}
                     id="mover"
-                    className="w-full xs:w-11/12 sm:w-10/12 md:w-[80%] mt-8 md:mt-10 h-auto flex flex-col items-center"
+                    className="w-full xs:w-11/12 sm:w-10/12 md:w-[80%] mt-6 md:mt-8 h-auto flex flex-col items-center"
                 >
                     {/* Tabs */}
-                    <div className="flex flex-wrap justify-center gap-3 xs:gap-4 sm:gap-5 mb-8 md:mb-10 bg-gray/10 px-2 xs:px-3 sm:px-4 py-2 rounded-3xl lg:gap-5">
+                    <div className="flex flex-wrap justify-center gap-3 xs:gap-4 sm:gap-5 mb-6 md:mb-8 bg-gray/10 px-2 xs:px-3 sm:px-4 py-2 rounded-3xl lg:gap-5">
                         {tabs.map((tab, index) => (
                             <button
                                 key={tab.id}
@@ -234,7 +233,7 @@ const Mockup = () => {
                             {tabs.filter((_, i) => i === activeTab).map((tab) => (
                                 <motion.div
                                     key={tab.id}
-                                    className="w-full flex flex-col md:flex-row items-center justify-center gap-12 xs:gap-14 sm:gap-16 md:gap-20 lg:gap-24 py-6 md:py-10"
+                                    className="w-full flex flex-col md:flex-row items-center justify-center gap-10 xs:gap-12 sm:gap-14 md:gap-16 lg:gap-20 md:py-8"
                                     initial="hidden"
                                     animate="visible"
                                     exit="exit"
@@ -248,7 +247,7 @@ const Mockup = () => {
                                         dragElastic={0.25}
                                         dragMomentum={false}
                                         dragConstraints={{ left: -40, right: 40, top: 0, bottom: 0 }}
-                                        className="w-[clamp(10rem,9rem+7vw,24rem)] h-[clamp(18rem,18rem+12vw,50rem)] bg-black rounded-[2rem] overflow-hidden shadow-lg flex-none transition-all duration-300 mt-4 md:mt-2"
+                                        className="w-[clamp(10rem,9rem+7vw,24rem)] h-[clamp(18rem,18rem+12vw,46rem)] rounded-[2rem] overflow-hidden shadow-lg flex-none transition-all duration-300 mt-2 md:mt-0"
                                         whileTap={{ cursor: 'grabbing', scale: 0.98 }}
                                     >
                                         <img src={tab.image} alt={tab.title} className="w-full h-full object-fill bg-transparent" />
@@ -261,20 +260,20 @@ const Mockup = () => {
                                         dragElastic={0.2}
                                         dragMomentum={false}
                                         dragConstraints={{ left: -60, right: 60, top: 0, bottom: 0 }}
-                                        className="flex flex-col items-center md:items-start gap-6 xs:gap-8 md:gap-10 text-center md:text-left md:px-0 flex-1 min-w-0 md:max-w-[clamp(11rem,10rem+7vw,24rem)] lg:max-w-[clamp(11rem,10rem+7vw,24rem)] mt-6 md:mt-2"
+                                        className="flex flex-col items-center md:items-start gap-5 xs:gap-7 md:gap-8 text-center md:text-left md:px-0 flex-1 min-w-0 md:max-w-[clamp(11rem,10rem+7vw,24rem)] lg:max-w-[clamp(25rem,10rem+7vw,24rem)] mt-4 md:mt-1"
                                         whileTap={{ cursor: 'grabbing' }}
                                     >
-                                        <motion.h2 variants={childVariants} className="text-[clamp(1.2rem,1.1rem+2vw,2.75rem)] font-extrabold whitespace-pre-line mb-2 sm:mb-3">
+                                        <motion.h2 variants={childVariants} className="text-[clamp(1.15rem,1.05rem+1.9vw,2.6rem)] font-extrabold mb-2 sm:mb-2">
                                             {tab.heading}
                                         </motion.h2>
-                                        <motion.p variants={childVariants} className="text-gray text-[clamp(0.85rem,0.75rem+1vw,1.35rem)] mb-4 sm:mb-5">
+                                        <motion.p variants={childVariants} className="text-gray text-[clamp(0.8rem,0.72rem+0.95vw,1.28rem)] mb-3 sm:mb-4">
                                             {tab.description}
                                         </motion.p>
                                         <motion.button
                                             variants={childVariants}
                                             whileHover={{ scale: 1.03 }}
                                             whileTap={{ scale: 0.96 }}
-                                            className="group relative overflow-hidden px-4 py-2 xs:px-6 xs:py-2 md:px-8 md:py-3 lg:px-10 lg:py-4 bg-secondaryDefault text-white rounded-2xl transition duration-200 hover:bg-secondary-700 flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[180px] md:min-w-[200px] text-xs xs:text-sm md:text-base lg:text-lg mt-2 sm:mt-4"
+                                            className="group relative overflow-hidden px-4 py-2 xs:px-6 xs:py-2 md:px-7 md:py-3 lg:px-9 lg:py-4 bg-secondaryDefault text-white rounded-2xl transition duration-200 hover:bg-secondary-700 flex items-center justify-center gap-2 w-full sm:w-auto sm:min-w-[170px] md:min-w-[190px] text-xs xs:text-sm md:text-base lg:text-lg mt-1 sm:mt-3"
                                         >
                                             {tab.button}
                                             <FaArrowRight className="text-white text-base md:text-xl transition-transform duration-200 group-hover:translate-x-1" />
@@ -299,8 +298,8 @@ const Mockup = () => {
                     h-auto
                     flex flex-col justify-start items-center
                     bg-transparent rounded-t-[2rem]
-                    top-[4rem] xs:top-[-10rem] sm:top-[-4rem] md:top-[2rem]
-                    pt-10 xs:pt-12 sm:pt-14 md:pt-16 pb-10 overflow-visible
+                    top-[3rem] xs:top-[-9rem] sm:top-[-3rem] md:top-[1.25rem]
+                    pt-8 xs:pt-10 sm:pt-12 md:pt-14 pb-8 overflow-visible
                 "
             >
                 {/* Black circle background behind fill content */}
@@ -317,7 +316,7 @@ const Mockup = () => {
                 {/* Main heading */}
                 <motion.h1
                     variants={childVariants}
-                    className="text-[clamp(1.2rem,1rem+2vw,3.75rem)] font-bold text-black text-center relative z-10 leading-tight mt-2"
+                    className="text-[clamp(1.15rem,0.95rem+1.9vw,3.5rem)] font-bold text-black text-center relative z-10 leading-tight mt-1"
                 >
                     It's Like Having a Private Tutor <span className="text-[#35605A]">in<br />Your Pocket</span>
                 </motion.h1>
@@ -325,7 +324,7 @@ const Mockup = () => {
                 {/* Subtitle */}
                 <motion.p
                     variants={childVariants}
-                    className="text-center relative z-10 text-gray font-medium text-[clamp(0.8rem,0.7rem+1vw,1.25rem)] mt-1 mb-4 px-4"
+                    className="text-center relative z-10 text-gray font-medium text-[clamp(0.78rem,0.68rem+0.95vw,1.2rem)] mt-1 mb-3 px-4"
                 >
                     Experience personalized learning that adapts to your unique needs and learning style
                 </motion.p>
@@ -336,7 +335,7 @@ const Mockup = () => {
                     variants={childVariants}
                     id="child1"
                     ref={cardsViewportRef}
-                    className="block md:hidden overflow-x-hidden overflow-y-visible bg-transparent w-full cursor-grab active:cursor-grabbing select-none mt-4 px-2"
+                    className="block md:hidden overflow-x-hidden overflow-y-visible bg-transparent w-full cursor-grab active:cursor-grabbing select-none mt-3 px-2"
                 >
                     <motion.div
                         className="flex w-full gap-3 xs:gap-4 sm:gap-6 md:gap-8 lg:gap-10"
@@ -416,7 +415,7 @@ const Mockup = () => {
                 </motion.div>
 
                 {/* Desktop grid */}
-                <div id="child2" className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12 w-full max-w-6xl mt-8 md:mt-12 px-2 md:px-0">
+                <div id="child2" className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-5 lg:gap-7 xl:gap-9 2xl:gap-10 w-full max-w-6xl mt-6 md:mt-10 px-2 md:px-0">
                     {/* Card 1 */}
                     <motion.div variants={childVariants} className="group relative hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer hover:shadow-xl m-2 sm:m-3 md:m-4">
                         <div
